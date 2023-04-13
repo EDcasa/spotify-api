@@ -17,4 +17,9 @@ const Storage = sequelize.define(
   }
 );
 
+Storage.findAllData = async function () {
+  return Tracks.findAll();
+}
+
+
 module.exports = Storage;

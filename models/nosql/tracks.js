@@ -65,6 +65,11 @@ TracksSchema.statics.findAllData = function () {
 TracksSchema.statics.findOneData = function (id) {
   const joinData = this.aggregate([
     {
+        $match: {
+          _id: new mongoose.Types.ObjectId(id),
+        }
+    },
+    {
         $lookup: {
             from: 'storages',
             localField: 'mediaId',
@@ -74,11 +79,6 @@ TracksSchema.statics.findOneData = function (id) {
     },
     {
         $unwind: "$audio"
-    },
-    {
-        $match: {
-          _id:mongoose.Types.ObjectId(id)
-        }
     }
 ])
 return joinData;

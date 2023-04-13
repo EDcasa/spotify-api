@@ -13,5 +13,10 @@ const StorageSchema = new mongoose.Schema({
     timestamps: true,
     versionKey:false
 });
+StorageSchema.statics.findAllData = function () {
+    const joinData = this.aggregate([])
+    return joinData;
+  };
+  
 StorageSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
 module.exports = mongoose.model('storages', StorageSchema);

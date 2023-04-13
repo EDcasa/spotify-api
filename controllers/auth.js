@@ -3,6 +3,8 @@ const { encrypt, compare } = require('../utils/handlePassword');
 const { usersModel } = require('../models');
 const { tokenSign } = require('../utils/handleJwt');
 const { handleHttpError } = require('../utils/handleError');
+const ENGINE_DB = process.env.ENGINE_DB;
+
 
 const RegisterCtrl = async(req, res) => {
     {
@@ -17,8 +19,7 @@ const RegisterCtrl = async(req, res) => {
                 token: await tokenSign(dataUser),
                 user: dataUser
             }
-    
-            
+
             res.send({data});   
         } catch (error) {
             handleHttpError(res, 'ERROR IN REGISTER');
@@ -29,10 +30,12 @@ const RegisterCtrl = async(req, res) => {
 const LoginCtrl = async(req, res) => {
     try {
         const {email, password} = matchedData(req);
-        console.log(password);
-        console.log(email);
-        const user = await usersModel.findOne({email})
-        // .select('password');
+        let user;
+        if(ENGINE_DB  === 'nosql'){ 
+             user = await usersModel.findOne({email}).select('password');
+        }else{
+            user = await usersModel.findOne({email})
+        }
         
         if(!user){
             handleHttpError(res, 'USER NOT FOUND');
@@ -53,7 +56,6 @@ const LoginCtrl = async(req, res) => {
         res.send({data});
 
     } catch (error) {
-        console.log(error);
         handleHttpError(res, 'ERROR IN LOGIN');
     }
 }

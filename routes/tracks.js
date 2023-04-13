@@ -8,7 +8,7 @@ const {authMiddleware} = require('../middleware/session');
 const checkRol = require('../middleware/rol');
 router.get('/',
 authMiddleware,
-checkRol(['admin']), 
+checkRol(['admin','user']), 
 getItems);
 router.get('/:id', validatorGetItem, getItem);
 router.post('/', validatorCreateItem, createItems);

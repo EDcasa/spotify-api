@@ -6,7 +6,7 @@ const PUBLIC_URL = process.env.PUBLIC_URL;
 const MEDIA_PATH = `${__dirname}/../storage`
 const getItems = async (req, res) => {
     try {
-        const data = await storageModel.find({});
+        const data = await storageModel.findAllData({});
         res.send({data})
     } catch (error) {
         handleHttpError(res, 'ERROR IN GET ITEMS');

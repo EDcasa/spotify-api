@@ -12,4 +12,5 @@ const getProperties = async (req, res) => {
    return data[ENGINE_DB];
 }
 
+ 
 module.exports = getProperties
